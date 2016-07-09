@@ -1,8 +1,10 @@
 # wemos-iot-button
 
-Simple iot button that use ifttt as service provider. It will connect to predefined ssid and password (with alternative). and one the button clicked, it will `ping` ifttt trigger, that you can use to trigger anything on ifttt
+Simple iot button that use ifttt as service provider. It will connect to predefined ssid and password (with alternative). and when the button clicked (or double clicked), it will `ping` ifttt trigger, that you can use to trigger anything on ifttt. (will add step by step later)
 
 I find it is useful to annoy my wife (by using the trigger to send her email from my email). If you find another purpose please do tell me.
+
+
 
 Setup
 =======
@@ -17,8 +19,20 @@ void config(){
   password2 = "password for alternative ssid";
   host = "maker.ifttt.com";
   trigger = "your trigger on ifttt";
+  trigger2 = "your trigger on ifttt on doubleclick event";
   triggerKey = "your key on ifttt";
 }
 ```
 
 then compile and upload to your wemos r2/d1 mini using Arduino
+
+USAGE (that I know)
+=========
+- annoy my wife by spamming her email
+- now my wife want one that could notify my desktop if she needs me to answer the phone
+
+
+CREDITS
+==========
+- DoubleClick on button using code from Jeff Saltzman on [arduino forum](http://forum.arduino.cc/index.php?topic=14479.0)
+

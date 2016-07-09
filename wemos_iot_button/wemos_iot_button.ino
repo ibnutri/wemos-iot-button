@@ -20,9 +20,11 @@ char* ssid2     = "";
 char* password2 = "";
 char* host = "";
 char* trigger = "";
+char* trigger2 = "";
 char* triggerKey = "";
 
 int inputPin = D8;  // pushbutton connected to digital pin D3
+#define buttonPin D8        // analog input pin to use as a digital input
 int val = 0;        // variable to store the read value
 
 void setup() {
@@ -71,10 +73,18 @@ void loop() {
   digitalWrite(BUILTIN_LED, val);  // sets the LED to the button's value
   //Serial.println(val);
   */
-   val = digitalRead(inputPin);
-  if(val == 1){
-    callIfttt();
-  }
+//   val = digitalRead(inputPin);
+//  if(val == 1){
+//    callIfttt();
+//  }
+  int b = checkButton();
+   if (b == 1) callIfttt();
+   if (b == 2) callIfttt2();
+   if(b != 0){
+    Serial.println(b);
+   }
+//   if (b == 3) holdEvent();
+//   if (b == 4) longHoldEvent();
 
 }
 
@@ -94,6 +104,52 @@ void callIfttt(){
   // We now create a URI for the request
   String url = "/trigger/";
   url += trigger;
+  url += "/with/key/";
+  url += triggerKey;
+
+  Serial.print("Requesting URL: ");
+  Serial.println(url);
+
+  // This will send the request to the server
+  client.print(String("GET ") + url + " HTTP/1.1\r\n" +
+               "Host: " + host + "\r\n" + 
+               "Connection: close\r\n\r\n");
+  delay(10);
+
+  // Read all the lines of the reply from server and print them to Serial
+  Serial.println("Respond:");
+  while(client.available()){
+    String line = client.readStringUntil('\r');
+    Serial.print(line);
+  }
+
+  Serial.println();
+  Serial.println("closing connection");
+  delay(200);
+  digitalWrite(BUILTIN_LED, 1);  // turning off LED
+  delay(200);
+  digitalWrite(BUILTIN_LED, 0);  // turning on LED
+  delay(200);
+  digitalWrite(BUILTIN_LED, 1);  // turning off LED
+  delay(200);
+  digitalWrite(BUILTIN_LED, 0);  // turning on LED
+}
+void callIfttt2(){
+  
+  Serial.print("connecting to ");
+  Serial.println(host);
+
+  // Use WiFiClient class to create TCP connections
+  WiFiClient client;
+  const int httpPort = 80;
+  if (!client.connect(host, httpPort)) {
+    Serial.println("connection failed");
+    return;
+  }
+
+  // We now create a URI for the request
+  String url = "/trigger/";
+  url += trigger2;
   url += "/with/key/";
   url += triggerKey;
 
