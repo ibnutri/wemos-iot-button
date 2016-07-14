@@ -20,6 +20,7 @@ void config(){
   host = "maker.ifttt.com";
   trigger = "your trigger on ifttt";
   trigger2 = "your trigger on ifttt on doubleclick event";
+  trigger3 = "your trigger on ifttt on hold (1 second) event";
   triggerKey = "your key on ifttt";
 }
 ```
